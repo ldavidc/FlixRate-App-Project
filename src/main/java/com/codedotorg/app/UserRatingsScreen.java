@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.codedotorg.Movie;
 import com.codedotorg.Rating;
+import com.codedotorg.*;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -14,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class UserRatingsScreen extends AppScreen {
 
@@ -75,14 +78,22 @@ public class UserRatingsScreen extends AppScreen {
      * 
      * @return a ListView of Rating objects.
      */
+    
     public ListView<Rating> createListView() {
-        ListView<Rating> listView = new ListView<Rating>();
-        
-
-
-
-        
-
+        // Step 1: Get the current user
+        User currentUser = MovieApp.getCurrentUser();
+    
+        // Step 2: Retrieve the list of movies rated by the current user using getRatings
+        ArrayList<Rating> ratedMovies = currentUser.getRatings();
+    
+        // Step 3: Create a ListView<Movie>
+        ListView<Rating> listView = new ListView<>();
+    
+        // Step 4: Set the items of the ListView to the list of rated movies
+        ObservableList<Rating> observableRatedMovies = FXCollections.observableArrayList(ratedMovies);
+        listView.setItems(observableRatedMovies);
+    
+        // Step 5: Return the ListView
         return listView;
     }
 
