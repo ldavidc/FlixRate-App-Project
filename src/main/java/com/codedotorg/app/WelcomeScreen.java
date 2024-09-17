@@ -88,19 +88,18 @@ public class WelcomeScreen extends AppScreen {
      */
     public void setOrSwitchUser(String username) {
         AppLogic logic = new AppLogic();
-        User currentUser = logic.createNewUser(username);;
-
-        MovieApp.addUser(currentUser);
-        MovieApp.setCurrentUser(currentUser);
-
-        ArrayList<User> a = MovieApp.getUsers();
-
-        if (AppLogic.isUsernameExists(a, username)) {
+        User currentUser;
+        
+        if (logic.isUsernameExists(MovieApp.getUsers(), username)) {
             // Step 2: If the username exists, use getExistingUser to retrieve the existing user
-            currentUser = AppLogic.getExistingUser(username);
+            currentUser = logic.getExistingUser(MovieApp.getUsers(), username);
+            MovieApp.setCurrentUser(currentUser);
         } else {
             // Step 3: If the username does not exist, create a new user and set currentUser to the new user
-            currentUser = AppLogic.createNewUser(a, username);
+            currentUser = logic.createNewUser(username);
+            
+            MovieApp.addUser(currentUser);
+            MovieApp.setCurrentUser(currentUser);
         }
     }
 
