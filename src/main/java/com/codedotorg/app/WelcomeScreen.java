@@ -1,9 +1,11 @@
 package com.codedotorg.app;
+///package com.codedotorg.AppLogic;
 
 import java.util.ArrayList;
 
 import com.codedotorg.AppLogic;
 import com.codedotorg.User;
+import com.codedotorg.*;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -86,10 +88,19 @@ public class WelcomeScreen extends AppScreen {
      */
     public void setOrSwitchUser(String username) {
         AppLogic logic = new AppLogic();
-        User currentUser = logic.createNewUser(username);;
-
-        MovieApp.addUser(currentUser);
-        MovieApp.setCurrentUser(currentUser);
+        User currentUser;
+        
+        if (logic.isUsernameExists(MovieApp.getUsers(), username)) {
+            // Step 2: If the username exists, use getExistingUser to retrieve the existing user
+            currentUser = logic.getExistingUser(MovieApp.getUsers(), username);
+            MovieApp.setCurrentUser(currentUser);
+        } else {
+            // Step 3: If the username does not exist, create a new user and set currentUser to the new user
+            currentUser = logic.createNewUser(username);
+            
+            MovieApp.addUser(currentUser);
+            MovieApp.setCurrentUser(currentUser);
+        }
     }
 
 }
